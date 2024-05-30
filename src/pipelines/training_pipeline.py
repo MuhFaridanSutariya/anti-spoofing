@@ -1,14 +1,12 @@
 import argparse
-
 import os
 import sys
-
 from lightning.pytorch import Trainer
 from lightning.pytorch.loggers import WandbLogger
 from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
 import torch
-
 import wandb
+from huggingface_hub import HfApi, HfFolder, Repository
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, path)
@@ -18,28 +16,10 @@ from models.resnext50 import SEResNeXT50
 from models.mobilenet import MobileNetV3
 from models.feathernet import FeatherNetB
 from data.dataset import load_data, load_dataloader
-from huggingface_hub import Repository, login
-
-
 from utils import load_backbone
-
 from metrics.apcer import APCER
 from metrics.npcer import NPCER
 from metrics.acer import ACER
-
-
-"""
- ____           __                        __           __                   __      __                                
-/\  _`\        /\ \__                    /\ \         /\ \       __        /\ \    /\ \__         __                     
-\ \ \L\ \__  __\ \ ,_\   ___   _ __   ___\ \ \___     \ \ \     /\_\     __\ \ \___\ \ ,_\   ___ /\_\    ___      __     
- \ \ ,__/\ \/\ \\ \ \/  / __`\/\`'__\/'___\ \  _ `\    \ \ \  __\/\ \  /'_ `\ \  _ `\ \ \/ /' _ `\/\ \ /' _ `\  /'_ `\   
-  \ \ \/\ \ \_\ \\ \ \_/\ \L\ \ \ \//\ \__/\ \ \ \ \    \ \ \L\ \\ \ \/\ \L\ \ \ \ \ \ \ \_/\ \/\ \ \ \/\ \/\ \/\ \L\ \  
-   \ \_\ \/`____ \\ \__\ \____/\ \_\\ \____\\ \_\ \_\    \ \____/ \ \_\ \____ \ \_\ \_\ \__\ \_\ \_\ \_\ \_\ \_\ \____ \ 
-    \/_/  `/___/> \\/__/\/___/  \/_/ \/____/ \/_/\/_/     \/___/   \/_/\/___L\ \/_/\/_/\/__/\/_/\/_/\/_/\/_/\/_/\/___L\ \ 
-             /\___/                                                      /\____/                                  /\____/
-             \/__/                                                       \_/__/                                   \_/__/ 
-"""
-
 
 def training_pipeline(args: argparse.Namespace):
     # Load dataset
@@ -52,7 +32,6 @@ def training_pipeline(args: argparse.Namespace):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(" > Device map:", device)
 
-
     # Load backbone
     backbone = load_backbone(args)
 
@@ -62,10 +41,8 @@ def training_pipeline(args: argparse.Namespace):
                        num_classes=args.num_classes)
     model.to(device)
     
-
     # Load logger
     wandb.login(key=args.wandb_token)
-    login(token=args.hf_token)
     logger = WandbLogger(name=args.wandb_runname, project="cv-project")
 
     # Load callbacks
@@ -91,12 +68,23 @@ def training_pipeline(args: argparse.Namespace):
     best_model_path = ckpt_callback.best_model_path
     print(f"Best model saved at: {best_model_path}")
 
-    # Load model from path
+    # Load and save model to Hugging Face
     model = ModelInterface.load_from_checkpoint(checkpoint_path=best_model_path, 
                                                 model=backbone,
                                                 input_shape=args.input_shape, 
                                                 num_classes=args.num_classes)
     model.to(device)
+
+    # Hugging Face Hub credentials and repository
+    hf_token = args.hf_token
+    repo_name = args.hf_repo_name
+    HfFolder.save_token(hf_token)
+    
+    api = HfApi()
+    api.create_repo(repo_id=repo_name, private=False, token=hf_token)
+    repo = Repository(local_dir=repo_name, clone_from=repo_name)
+    model.save_pretrained(repo_name)
+    repo.push_to_hub(commit_message="Initial commit", use_auth_token=hf_token)
 
     if test_loader is not None:
         model.eval()
@@ -130,12 +118,3 @@ def training_pipeline(args: argparse.Namespace):
         print(f"Test APCER: {apcer}")
         print(f"Test NPCER: {npcer}")
         print(f"Test ACER: {acer}")
-    
-    repository_id = args.hf_repo_id
-    repo = Repository(local_dir="checkpoint", clone_from=repository_id)
-    
-    # Add the model files to the repository
-    repo.add(f"{best_model_path}")
-
-    # Commit and push the model
-    repo.push_to_hub()
