@@ -18,6 +18,8 @@ from models.resnext50 import SEResNeXT50
 from models.mobilenet import MobileNetV3
 from models.feathernet import FeatherNetB
 from data.dataset import load_data, load_dataloader
+from huggingface_hub import Repository, login
+
 
 from utils import load_backbone
 
@@ -63,6 +65,7 @@ def training_pipeline(args: argparse.Namespace):
 
     # Load logger
     wandb.login(key=args.wandb_token)
+    login(token=args.hf_token)
     logger = WandbLogger(name=args.wandb_runname, project="cv-project")
 
     # Load callbacks
@@ -127,3 +130,12 @@ def training_pipeline(args: argparse.Namespace):
         print(f"Test APCER: {apcer}")
         print(f"Test NPCER: {npcer}")
         print(f"Test ACER: {acer}")
+    
+    repository_id = args.hf_repo_id
+    repo = Repository(local_dir="checkpoint", clone_from=repository_id)
+    
+    # Add the model files to the repository
+    repo.add(f"{best_model_path}")
+
+    # Commit and push the model
+    repo.push_to_hub()
