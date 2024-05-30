@@ -17,7 +17,7 @@ def run_training():
     parser.add_argument("--wandb_runname", type=str, default="resnet")
 
     parser.add_argument("--hf_token", type=str, default="your-token")
-    parser.add_argument("--hf_repo_id", type=str, default="your-repo-id")
+    parser.add_argument("--hf_repo_name", type=str, default="your-repo-id")
 
     parser.add_argument("--modelname", type=str, default="seresnext50")
 
