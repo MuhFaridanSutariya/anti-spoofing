@@ -79,8 +79,9 @@ def training_pipeline(args: argparse.Namespace):
     hf_token = args.hf_token
     repo_name = args.hf_repo_name
     HfFolder.save_token(hf_token)
+    model.half()
 
-    model.push_to_hub(repo_name)
+    model.push_to_hub(repo_name, use_auth_token=hf_token)
 
     if test_loader is not None:
         model.eval()
