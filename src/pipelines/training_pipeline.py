@@ -6,7 +6,7 @@ from lightning.pytorch.loggers import WandbLogger
 from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
 import torch
 import wandb
-from huggingface_hub import HfApi, HfFolder, Repository
+from huggingface_hub import HfFolder
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, path)
@@ -79,12 +79,8 @@ def training_pipeline(args: argparse.Namespace):
     hf_token = args.hf_token
     repo_name = args.hf_repo_name
     HfFolder.save_token(hf_token)
-    
-    api = HfApi()
-    api.create_repo(repo_id=repo_name, private=False, token=hf_token)
-    repo = Repository(local_dir=repo_name, clone_from=repo_name)
-    model.save_pretrained(repo_name)
-    repo.push_to_hub(commit_message="Initial commit", use_auth_token=hf_token)
+
+    model.push_to_hub(repo_name)
 
     if test_loader is not None:
         model.eval()
