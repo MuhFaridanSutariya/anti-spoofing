@@ -12,9 +12,6 @@ path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, path)
 
 from models.ln_model import load_model, ModelInterface
-from models.resnext50 import SEResNeXT50
-from models.mobilenet import MobileNetV3
-from models.feathernet import FeatherNetB
 from data.dataset import load_data, load_dataloader
 from utils import load_backbone
 from metrics.apcer import APCER
@@ -76,12 +73,12 @@ def training_pipeline(args: argparse.Namespace):
     model.to(device)
 
     # Hugging Face Hub credentials and repository
-    hf_token = args.hf_token
-    repo_name = args.hf_repo_name
-    HfFolder.save_token(hf_token)
-    model.half()
+    # hf_token = args.hf_token
+    # repo_name = args.hf_repo_name
+    # HfFolder.save_token(hf_token)
+    # model.half()
 
-    model.push_to_hub(repo_name, use_auth_token=hf_token)
+    # model.push_to_hub(repo_name, use_auth_token=hf_token)
 
     if test_loader is not None:
         model.eval()
