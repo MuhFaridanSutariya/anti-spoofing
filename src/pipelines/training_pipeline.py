@@ -81,15 +81,6 @@ def training_pipeline(args: argparse.Namespace):
 
     # model.push_to_hub(repo_name, use_auth_token=hf_token)
 
-    config = {
-        "input_shape": args.input_shape,
-        "num_classes": args.num_classes,
-        "model_name": args.modelname
-    }
-
-    with open('checkpoint/config.json', 'w') as f:
-        json.dump(config, f, indent=4)
-
     # model.pretrained_model.config.push_to_hub("faridans27/anti-spoofing")
 
     if test_loader is not None:
@@ -124,3 +115,13 @@ def training_pipeline(args: argparse.Namespace):
         print(f"Test APCER: {apcer}")
         print(f"Test NPCER: {npcer}")
         print(f"Test ACER: {acer}")
+
+    
+    # config = {
+    #     "input_shape": args.input_shape,
+    #     "num_classes": args.num_classes,
+    #     "model_name": args.modelname
+    # }
+
+    # with open('checkpoint/config.json', 'w') as f:
+    #     json.dump(config, f, indent=4)

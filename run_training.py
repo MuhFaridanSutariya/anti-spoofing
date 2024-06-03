@@ -26,7 +26,7 @@ def run_training():
 
     
     parser.add_argument("--batch_size", type=int, default=64)
-    parser.add_argument("--max_epochs", type=int, default=10)
+    parser.add_argument("--max_epochs", type=int, default=1)
     args = parser.parse_args()
 
     print("=========================================")
