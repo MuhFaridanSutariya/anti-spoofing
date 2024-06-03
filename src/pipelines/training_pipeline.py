@@ -80,7 +80,7 @@ def training_pipeline(args: argparse.Namespace):
 
     # model.push_to_hub(repo_name, use_auth_token=hf_token)
 
-    model.save_pretrained("custom-resnet")
+    model.save_pretrained("checkpoint")
 
     if test_loader is not None:
         model.eval()
