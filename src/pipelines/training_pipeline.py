@@ -7,6 +7,7 @@ from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
 import torch
 import wandb
 from huggingface_hub import HfFolder
+import json
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, path)
@@ -80,7 +81,16 @@ def training_pipeline(args: argparse.Namespace):
 
     # model.push_to_hub(repo_name, use_auth_token=hf_token)
 
-    model.save_pretrained("checkpoint")
+    config = {
+        "input_shape": args.input_shape,
+        "num_classes": args.num_classes,
+        "model_name": args.modelname
+    }
+
+    with open('checkpoint/config.json', 'w') as f:
+        json.dump(config, f, indent=4)
+
+    # model.pretrained_model.config.push_to_hub("faridans27/anti-spoofing")
 
     if test_loader is not None:
         model.eval()
