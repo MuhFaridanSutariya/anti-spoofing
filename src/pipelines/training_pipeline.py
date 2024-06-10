@@ -6,8 +6,6 @@ from lightning.pytorch.loggers import WandbLogger
 from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
 import torch
 import wandb
-from huggingface_hub import HfFolder
-import json
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, path)
@@ -71,6 +69,7 @@ def training_pipeline(args: argparse.Namespace):
                                                 model=backbone,
                                                 input_shape=args.input_shape, 
                                                 num_classes=args.num_classes)
+
     model.to(device)
 
     # Hugging Face Hub credentials and repository
@@ -117,11 +116,3 @@ def training_pipeline(args: argparse.Namespace):
         print(f"Test ACER: {acer}")
 
     
-    # config = {
-    #     "input_shape": args.input_shape,
-    #     "num_classes": args.num_classes,
-    #     "model_name": args.modelname
-    # }
-
-    # with open('checkpoint/config.json', 'w') as f:
-    #     json.dump(config, f, indent=4)

@@ -50,8 +50,8 @@ def load_argparser():
 
     parser.add_argument("--modelname", type=str, default="seresnext50")
 
-    parser.add_argument("--train_path", type=str, default="/kaggle/input/lcc-fasd/LCC_FASD/LCC_FASD_training")
-    parser.add_argument("--test_path", type=str, default="/kaggle/input/lcc-fasd/LCC_FASD/LCC_FASD_evaluation")
+    parser.add_argument("--train_path", type=str, default="datasets/LCC_FASD/LCC_FASD_training")
+    parser.add_argument("--test_path", type=str, default="datasets/LCC_FASD/LCC_FASD_evaluation")
     
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--max_epochs", type=int, default=10)
