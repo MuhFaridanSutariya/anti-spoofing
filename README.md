@@ -1,4 +1,5 @@
 # Anti Spoofing System
+This is project for exploration about Machine Learning Operation in Classification Image Task
 
 ## Folder Structure
 ```
