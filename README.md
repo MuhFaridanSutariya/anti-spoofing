@@ -37,8 +37,8 @@ This is project for exploration about Machine Learning Operation in Classificati
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/anti-spoofing-system.git
-   cd anti-spoofing-system
+   git clone https://github.com/MuhFaridanSutariya/anti-spoofing.git
+   cd anti-spoofing
 2. <b> Build and run the Docker container</b>:
     ```bash
     docker-compose up --build
