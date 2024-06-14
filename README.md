@@ -27,7 +27,28 @@ This is project for exploration about Machine Learning Operation in Classificati
 ├── setup.sh                  <- File for set up python dependencies
 └── README.md
 ```
+## Getting Started
 
+### Prerequisites
+- Docker
+- Docker Compose
+
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/yourusername/anti-spoofing-system.git
+   cd anti-spoofing-system
+2. <b> Build and run the Docker container</b>:
+    ```bash
+    docker-compose up --build
+
+### Usage
+
+The API can be accessed at `http://localhost:5000`. You can use tools like Postman to interact with the API.
+
+Example Request
+To make a prediction, you can send a `POST` request to the `/predict` endpoint with an image file.
 
 ## References
 - [Mobilenet v2 Architecture](https://github.com/tonylins/pytorch-mobilenet-v2)
