@@ -18,6 +18,8 @@ This is project for exploration about Machine Learning Operation in Classificati
 |
 |
 │
+├── Dockerfile                <- Containerization
+├── docker-compose.yml        <- Container Orchestration
 ├── app.py                    <- Run API Endpoint
 ├── run_training.py           <- Run Training Pipeline
 ├── run_evaluation.py         <- Run Evaluation Pipeline
