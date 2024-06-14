@@ -35,6 +35,5 @@ This is project for exploration about Machine Learning Operation in Classificati
 - [Framework PyTorch](https://lightning.ai/docs/pytorch/stable/common/lightning_module.html)
 
 ### Todo:
-- API Development
 - Containerization
 - CI/CD using Github Action
