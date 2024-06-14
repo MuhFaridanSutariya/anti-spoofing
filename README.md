@@ -29,3 +29,8 @@ This is project for exploration about Machine Learning Operation in Classificati
 - [Mobilenet v2 Architecture](https://github.com/tonylins/pytorch-mobilenet-v2)
 - [Senet Architecture](https://github.com/moskomule/senet.pytorch)
 - [Framework PyTorch](https://lightning.ai/docs/pytorch/stable/common/lightning_module.html)
+
+### Todo:
+- API Development
+- Containerization
+- CI/CD using Github Action
