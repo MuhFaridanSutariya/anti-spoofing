@@ -6,3 +6,4 @@ torchvision==0.18.0
 Pillow==10.3.0
 huggingface_hub[cli]==0.23.2
 ultralytics==8.2.26
+flask==3.0.3
