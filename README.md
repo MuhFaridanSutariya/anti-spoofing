@@ -1,5 +1,5 @@
 # Anti Spoofing System
-This is project for exploration about Machine Learning Operation in Classification Image Task
+This is project for exploration about Machine Learning Lifecycle in Classification Image Task
 
 ## Folder Structure
 ```
@@ -13,7 +13,7 @@ This is project for exploration about Machine Learning Operation in Classificati
 │   ├── metrics                   <- Calculation metrics scripts
 │   ├── pipelines                 <- Machine learning pipeline for training and evaluation scripts
 │   ├── api                       <- Endpoint script
-│   ├── service                   <- Service script
+│   ├── services                  <- Service script
 │   ├── utils.py                  <- Utility scripts
 |
 |
