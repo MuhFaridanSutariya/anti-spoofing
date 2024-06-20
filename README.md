@@ -58,4 +58,4 @@ To make a prediction, you can send a `POST` request to the `/predict` endpoint w
 - [Framework PyTorch](https://lightning.ai/docs/pytorch/stable/common/lightning_module.html)
 
 ### Todo:
-]- CI/CD using Github Action
+- CI/CD using Github Action
